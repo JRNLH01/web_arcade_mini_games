@@ -11,6 +11,7 @@ const registerConnectFour = require("./server/games/connect-four");
 const registerTimer = require("./server/games/timer");
 const registerMemoryMatch = require("./server/games/memory-match");
 const registerHigherLower = require("./server/games/higher-lower");
+const registerParty = require("./server/party");
 
 const app = express();
 const server = http.createServer(app);
@@ -53,6 +54,7 @@ registerConnectFour(io.of("/connect-four"));
 registerTimer(io.of("/timer"));
 registerMemoryMatch(io.of("/memory-match"));
 registerHigherLower(io.of("/higher-lower"));
+registerParty(io.of("/party"));
 
 const PORT = Number(process.env.PORT) || 3000;
 server.listen(PORT, "0.0.0.0", () => {

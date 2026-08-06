@@ -131,3 +131,9 @@ This project uses Socket.IO and stores active rooms in the Node process. Do not 
 
 - a complete stateful deployment on Render or Railway; or
 - a Vercel static frontend connected to a Render/Railway Socket.IO backend.
+
+## Party Mode
+
+Players can create a two-player party from the main game menu and share one five-character party code. Once both players are in the party, the host can open any multiplayer game and the second player is automatically brought to the same page and joined to the host's new game room. The party stays saved in the browser while moving between games, so players do not need to enter a new room code for every game.
+
+Party state is stored by the stateful Socket.IO backend. Deploy the project as a Web Service on Render, Railway, Fly.io, or another persistent Node host. A serverless-only Vercel backend will not preserve active parties or rooms reliably.
