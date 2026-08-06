@@ -1,0 +1,122 @@
+/* Shared create/join page used by multiplayer arcade games. */
+.game-entry {
+  width: min(720px, 100%);
+  margin: 30px auto 0;
+  padding: clamp(25px, 5vw, 44px);
+}
+
+.game-entry-kicker {
+  margin: 0 0 7px;
+  color: var(--entry-accent, #5960cc);
+  font-size: .78rem;
+  font-weight: 950;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.game-entry h1 {
+  margin: 0 0 13px;
+  font-size: clamp(2.7rem, 8vw, 5.2rem);
+  line-height: .92;
+  letter-spacing: -.065em;
+}
+
+.game-entry-intro {
+  max-width: 610px;
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.58;
+}
+
+.game-entry-field {
+  display: grid;
+  gap: 7px;
+  color: #40445b;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.game-entry-input {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid rgba(49, 52, 80, .17);
+  border-radius: 13px;
+  background: #fff;
+  padding: 0 14px;
+  color: var(--ink);
+}
+
+.game-entry-input.room-code-input {
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 950;
+}
+
+.game-entry-actions {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  align-items: end;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.game-entry-join {
+  display: grid;
+  gap: 7px;
+}
+
+.game-entry-join-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 9px;
+}
+
+.game-entry-primary,
+.game-entry-secondary {
+  min-height: 48px;
+  border: 0;
+  border-radius: 13px;
+  padding: 0 18px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.game-entry-primary {
+  background: var(--entry-button, #26233c);
+  color: #fff;
+  box-shadow: 0 11px 25px color-mix(in srgb, var(--entry-button, #26233c) 22%, transparent);
+}
+
+.game-entry-secondary {
+  border: 1px solid rgba(45, 48, 72, .14);
+  background: #fff;
+  color: var(--entry-button, #26233c);
+}
+
+.game-entry-primary:disabled,
+.game-entry-secondary:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.game-entry-error {
+  min-height: 20px;
+  margin: 12px 0 0;
+  color: #c0273d;
+  font-weight: 800;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .game-entry {
+    margin-top: 16px;
+    padding: 23px 18px;
+  }
+
+  .game-entry-actions,
+  .game-entry-join-row {
+    grid-template-columns: 1fr;
+  }
+}

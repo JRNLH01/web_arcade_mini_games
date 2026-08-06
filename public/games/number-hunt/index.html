@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number Hunt</title>
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <link rel="stylesheet" href="/assets/css/game-entry.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/assets/css/multiplayer-lobby.css" />
+</head>
+<body>
+  <main class="app">
+    <a class="site-link backLink" href="/">← All games</a>
+    <section id="lobby" class="game-entry panel firstLobby">
+      <p class="game-entry-kicker">Two-player reaction race</p>
+      <h1>Number Hunt</h1>
+      <p class="game-entry-intro">Call a number and fill your X card while your opponent searches a shuffled board to stop you.</p>
+
+      <label class="game-entry-field" for="nameInput">Your name</label>
+      <input id="nameInput" class="game-entry-input" maxlength="18" placeholder="Player" autocomplete="nickname" />
+
+      <div class="game-entry-actions">
+        <button id="createBtn" class="game-entry-primary" type="button">Create room</button>
+        <div class="game-entry-join">
+          <label class="game-entry-field" for="roomInput">Join with code</label>
+          <div class="game-entry-join-row">
+            <input id="roomInput" class="game-entry-input room-code-input" maxlength="5" placeholder="ABCDE" autocomplete="off" />
+            <button id="joinBtn" class="game-entry-secondary" type="button">Join</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="lobbyError" class="game-entry-error" role="alert"></p>
+    </section>
+
+    <section id="game" class="game hidden">
+      <header id="gameTopbar" class="topbar panel">
+        <div>
+          <p class="small">Room code</p>
+          <h2 id="gameRoomCode">-----</h2>
+        </div>
+        <div>
+          <p class="small">Status</p>
+          <h2 id="status">Waiting...</h2>
+        </div>
+        <button id="restartBtn" class="secondary">Restart</button>
+      </header>
+
+      <section id="settingsLobby" class="shared-room-lobby panel hidden">
+        <div class="shared-lobby-heading">
+          <div>
+            <p class="shared-lobby-kicker">Room code</p>
+            <div class="shared-room-code-row">
+              <strong id="roomCode" class="shared-room-code">-----</strong>
+              <button id="copyRoomCodeBtn" class="shared-copy-button" type="button">Copy</button>
+            </div>
+          </div>
+          <span id="hostBadge" class="shared-host-badge">Host</span>
+        </div>
+
+        <div id="playerList" class="player-list shared-player-list"></div>
+
+        <section class="shared-settings-card">
+          <div class="shared-settings-heading">
+            <p class="shared-lobby-kicker">Game settings</p>
+            <h2 id="settingsTitle">Choose how to play</h2>
+          </div>
+          <div class="settingsGrid shared-option-grid">
+            <label>
+              Number board grid size
+              <select id="boardGridSelect">
+                <option value="3">3 × 3</option>
+                <option value="4">4 × 4</option>
+                <option value="5">5 × 5</option>
+                <option value="6">6 × 6</option>
+                <option value="7">7 × 7</option>
+                <option value="8">8 × 8</option>
+                <option value="9">9 × 9</option>
+                <option value="10" selected>10 × 10</option>
+                <option value="11">11 × 11</option>
+                <option value="12">12 × 12</option>
+              </select>
+              <span id="boardGridHelp" class="helpText">100 numbers</span>
+            </label>
+
+            <label>
+              Player card grid size
+              <select id="cardGridSelect">
+                <option value="3">3 × 3</option>
+                <option value="4">4 × 4</option>
+                <option value="5">5 × 5</option>
+                <option value="6">6 × 6</option>
+                <option value="7">7 × 7</option>
+                <option value="8">8 × 8</option>
+                <option value="9">9 × 9</option>
+                <option value="10" selected>10 × 10</option>
+                <option value="11">11 × 11</option>
+                <option value="12">12 × 12</option>
+              </select>
+              <span id="cardGridHelp" class="helpText">100 X boxes</span>
+            </label>
+          </div>
+        </section>
+
+        <p id="settingsNote" class="shared-lobby-message">Waiting for another player...</p>
+        <button id="startBtn" class="shared-start-button" type="button">Start game</button>
+        <p id="hostHint" class="shared-host-hint"></p>
+        <p id="settingsError" class="shared-lobby-error" aria-live="polite"></p>
+      </section>
+
+      <section id="gameArena" class="arena hidden">
+        <section class="playColumn">
+          <section id="callout" class="callout panel">
+            <p id="mainInstruction">Waiting for another player...</p>
+            <p id="calledNumber" class="bigNumber"></p>
+            <button id="fillBtn" class="fill hidden">TAP / SPACE TO FILL X</button>
+          </section>
+
+          <section class="mainGrids">
+            <section class="panel">
+              <div class="sectionHeader">
+                <h3>Your number board</h3>
+                <span id="boardHint" class="tag">Waiting</span>
+              </div>
+              <div id="numberBoard" class="numberBoard"></div>
+            </section>
+
+            <section class="panel">
+              <div class="sectionHeader">
+                <h3>Your X card</h3>
+                <span id="myProgress" class="tag">0/100</span>
+              </div>
+              <div id="myCard" class="cardGrid"></div>
+            </section>
+          </section>
+        </section>
+
+        <aside class="sideColumn">
+          <section class="panel opponentPanel">
+            <div class="sectionHeader">
+              <h3>Opponent card</h3>
+              <span id="oppProgress" class="tag">0/100</span>
+            </div>
+            <div id="oppCard" class="cardGrid mini"></div>
+          </section>
+
+          <section class="panel rules">
+            <h3>How to play</h3>
+            <ol>
+              <li>When it is your turn, choose one number from your own board.</li>
+              <li>After you call it, tap the fill button or press Space to add X's to your card.</li>
+              <li>Your opponent must find that number on their own jumbled board and click it to stop you.</li>
+              <li>Then roles swap. First player to fill their X card wins.</li>
+            </ol>
+          </section>
+        </aside>
+      </section>
+    </section>
+  </main>
+
+  <script src="/assets/vendor/socket.io.min.js"></script>
+<script src="/assets/js/runtime-config.js"></script>
+<script src="/assets/js/socket-connection.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>

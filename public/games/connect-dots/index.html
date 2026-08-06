@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Race a friend to connect matching coloured dots without crossing lines." />
+  <title>Connect Dots · Mini Game Arcade</title>
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <link rel="stylesheet" href="/games/connect-dots/style.css" />
+  <link rel="stylesheet" href="/assets/css/multiplayer-lobby.css" />
+</head>
+<body>
+  <main class="dots-shell">
+    <a class="site-link back-link" href="/">← Back to arcade</a>
+
+    <section id="welcome" class="welcome panel">
+      <p class="eyebrow">Two-player puzzle race</p>
+      <h1>Connect Dots</h1>
+      <p class="intro">Connect every pair of matching colours. Lines move through neighbouring squares and different colours cannot overlap or cross.</p>
+
+      <label class="field-label" for="playerName">Your name</label>
+      <input id="playerName" class="text-input" maxlength="18" placeholder="Player" autocomplete="nickname" />
+
+      <div class="room-actions">
+        <button id="createRoomBtn" class="primary-button" type="button">Create room</button>
+        <div class="join-box">
+          <label class="field-label" for="roomInput">Join with code</label>
+          <div class="join-row">
+            <input id="roomInput" class="text-input code-input" maxlength="5" placeholder="ABCDE" autocomplete="off" />
+            <button id="joinRoomBtn" class="secondary-button" type="button">Join</button>
+          </div>
+        </div>
+      </div>
+      <p id="welcomeError" class="error-message" role="alert"></p>
+    </section>
+
+    <section id="lobby" class="shared-room-lobby panel hidden">
+      <div class="shared-lobby-heading">
+        <div>
+          <p class="shared-lobby-kicker">Room code</p>
+          <div class="shared-room-code-row">
+            <strong id="roomCode" class="shared-room-code" aria-label="Room code">-----</strong>
+            <button id="copyRoomCodeBtn" class="shared-copy-button" type="button">Copy</button>
+          </div>
+        </div>
+        <span id="hostBadge" class="shared-host-badge">Host</span>
+      </div>
+
+      <div id="playerList" class="player-list shared-player-list"></div>
+
+      <section class="shared-settings-card">
+        <div class="shared-settings-heading">
+          <p class="shared-lobby-kicker">Game settings</p>
+          <h2>Choose how to play</h2>
+        </div>
+        <div class="option-grid shared-option-grid">
+          <label>Grid size
+            <select id="gridSizeSelect">
+              <option value="5">5 × 5</option>
+              <option value="6">6 × 6</option>
+              <option value="7" selected>7 × 7</option>
+              <option value="8">8 × 8</option>
+              <option value="9">9 × 9</option>
+            </select>
+          </label>
+          <label>Colour pairs
+            <select id="pairCountSelect">
+              <option value="3">3 colours</option>
+              <option value="4" selected>4 colours</option>
+              <option value="5">5 colours</option>
+              <option value="6">6 colours</option>
+            </select>
+          </label>
+          <label>Time limit
+            <select id="timeSelect">
+              <option value="30">30 seconds</option>
+              <option value="45">45 seconds</option>
+              <option value="60" selected>60 seconds</option>
+              <option value="90">90 seconds</option>
+              <option value="120">120 seconds</option>
+            </select>
+          </label>
+          <label>Rounds
+            <select id="roundsSelect">
+              <option value="1">1 round</option>
+              <option value="3" selected>3 rounds</option>
+              <option value="5">5 rounds</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <p id="lobbyMessage" class="shared-lobby-message"></p>
+      <button id="startBtn" class="shared-start-button" type="button">Start game</button>
+      <p id="lobbyError" class="shared-lobby-error" role="alert"></p>
+    </section>
+
+    <section id="playArea" class="play-area hidden">
+      <header class="game-header panel">
+        <div><span class="meta-label">Room</span><strong id="gameRoomCode">—</strong></div>
+        <div><span class="meta-label">Round</span><strong id="roundLabel">1 / 3</strong></div>
+        <div class="timer-box"><span class="meta-label">Time</span><strong id="timer">—</strong></div>
+      </header>
+
+      <section class="stage panel">
+        <p id="stageKicker" class="eyebrow">Get ready</p>
+        <h2 id="stageTitle">Connect matching dots</h2>
+        <p id="stageMessage" class="stage-message"></p>
+
+        <div id="countdownView" class="view hidden">
+          <div id="countdownNumber" class="countdown-number">3</div>
+          <p>The same puzzle appears for both players.</p>
+        </div>
+
+        <div id="puzzleView" class="view hidden">
+          <div class="progress-row">
+            <span id="connectionProgress">0 of 4 connected</span>
+            <span id="activeColourLabel">Choose a coloured dot</span>
+          </div>
+          <div id="dotsBoard" class="dots-board" aria-label="Connect dots puzzle">
+            <div id="dotsGrid" class="dots-grid"></div>
+            <svg id="pathLayer" class="path-layer" aria-hidden="true"></svg>
+          </div>
+          <div class="puzzle-actions">
+            <button id="undoBtn" class="secondary-button" type="button">Undo step</button>
+            <button id="clearBtn" class="secondary-button" type="button">Clear all</button>
+          </div>
+          <p class="help-text">Drag from one dot to its matching dot. You can also tap a dot, then tap neighbouring squares one at a time.</p>
+        </div>
+
+        <div id="resultView" class="view hidden">
+          <div id="resultIcon" class="result-icon">🏁</div>
+          <h3 id="resultTitle"></h3>
+          <p id="resultTime" class="result-time"></p>
+          <div id="resultBoard" class="dots-board result-board" aria-label="Completed puzzle">
+            <div id="resultGrid" class="dots-grid"></div>
+            <svg id="resultPathLayer" class="path-layer" aria-hidden="true"></svg>
+          </div>
+        </div>
+
+        <div id="finalView" class="view hidden">
+          <div class="result-icon">🏆</div>
+          <h3>Connect Dots complete</h3>
+          <p id="finalMessage"></p>
+          <div id="finalRankings" class="final-rankings"></div>
+          <button id="restartBtn" class="primary-button" type="button">Return to lobby</button>
+        </div>
+      </section>
+
+      <div id="scoreStrip" class="score-strip" aria-live="polite"></div>
+      <p id="playError" class="error-message" role="alert"></p>
+    </section>
+  </main>
+
+  <script src="/assets/vendor/socket.io.min.js"></script>
+<script src="/assets/js/runtime-config.js"></script>
+<script src="/assets/js/socket-connection.js"></script>
+  <script src="/games/connect-dots/client.js"></script>
+</body>
+</html>

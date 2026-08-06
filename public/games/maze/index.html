@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Race another player through the same randomly generated maze." />
+  <title>Maze Race · Mini Game Arcade</title>
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <link rel="stylesheet" href="/assets/css/game-entry.css" />
+  <link rel="stylesheet" href="/assets/css/multiplayer-lobby.css" />
+  <link rel="stylesheet" href="/games/maze/style.css" />
+</head>
+<body>
+  <main class="maze-shell">
+    <a class="site-link back-link" href="/">← Back to arcade</a>
+
+    <section id="welcome" class="game-entry panel">
+      <p class="game-entry-kicker">Two-player maze race</p>
+      <h1>Maze Race</h1>
+      <p class="game-entry-intro">Both players receive the same maze. Slide from the green entrance to the red exit—the fastest valid route wins.</p>
+
+      <label class="game-entry-field" for="playerName">Your name</label>
+      <input id="playerName" class="game-entry-input" maxlength="18" placeholder="Player" autocomplete="nickname" />
+
+      <div class="game-entry-actions">
+        <button id="createRoomBtn" class="game-entry-primary" type="button">Create room</button>
+        <div class="game-entry-join">
+          <label class="game-entry-field" for="roomInput">Join with code</label>
+          <div class="game-entry-join-row">
+            <input id="roomInput" class="game-entry-input room-code-input" maxlength="5" placeholder="ABCDE" autocomplete="off" />
+            <button id="joinRoomBtn" class="game-entry-secondary" type="button">Join</button>
+          </div>
+        </div>
+      </div>
+      <p id="welcomeError" class="game-entry-error" role="alert"></p>
+    </section>
+
+    <section id="lobby" class="shared-room-lobby panel hidden">
+      <div class="shared-lobby-heading">
+        <div>
+          <p class="shared-lobby-kicker">Room code</p>
+          <div class="shared-room-code-row">
+            <strong id="roomCode" class="shared-room-code">-----</strong>
+            <button id="copyRoomCodeBtn" class="shared-copy-button" type="button">Copy</button>
+          </div>
+        </div>
+        <span id="hostBadge" class="shared-host-badge">Host</span>
+      </div>
+
+      <div id="playerList" class="player-list shared-player-list"></div>
+
+      <section class="shared-settings-card">
+        <div class="shared-settings-heading">
+          <p class="shared-lobby-kicker">Game settings</p>
+          <h2>Choose how to play</h2>
+        </div>
+        <div class="shared-option-grid">
+          <label>Difficulty / grid size
+            <select id="gridSizeSelect">
+              <option value="9">Easy · 9 × 9</option>
+              <option value="13">Normal · 13 × 13</option>
+              <option value="17" selected>Medium · 17 × 17</option>
+              <option value="21">Hard · 21 × 21</option>
+              <option value="25">Expert · 25 × 25</option>
+              <option value="31">Extreme · 31 × 31</option>
+            </select>
+          </label>
+          <label>Time limit
+            <select id="timeSelect">
+              <option value="45">45 seconds</option>
+              <option value="60">60 seconds</option>
+              <option value="90" selected>90 seconds</option>
+              <option value="120">120 seconds</option>
+              <option value="180">180 seconds</option>
+            </select>
+          </label>
+          <label>Rounds
+            <select id="roundsSelect">
+              <option value="1">1 round</option>
+              <option value="3" selected>3 rounds</option>
+              <option value="5">5 rounds</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <p id="lobbyMessage" class="shared-lobby-message">Waiting for another player...</p>
+      <button id="startBtn" class="shared-start-button" type="button">Start game</button>
+      <p id="hostHint" class="shared-host-hint"></p>
+      <p id="lobbyError" class="shared-lobby-error" role="alert"></p>
+    </section>
+
+    <section id="playArea" class="play-area hidden">
+      <header class="game-header panel">
+        <div><span class="meta-label">Room</span><strong id="gameRoomCode">—</strong></div>
+        <div><span class="meta-label">Round</span><strong id="roundLabel">1 / 3</strong></div>
+        <div class="timer-box"><span class="meta-label">Time</span><strong id="timer">—</strong></div>
+      </header>
+
+      <section class="stage panel">
+        <p id="stageKicker" class="maze-kicker">Get ready</p>
+        <h2 id="stageTitle">Find the exit</h2>
+        <p id="stageMessage" class="stage-message"></p>
+
+        <div id="countdownView" class="view hidden">
+          <div id="countdownNumber" class="countdown-number">3</div>
+          <p>Both players receive the same maze.</p>
+        </div>
+
+        <div id="mazeView" class="view hidden">
+          <div class="progress-row">
+            <span id="pathProgress">Entrance selected</span>
+            <span>Green → red</span>
+          </div>
+          <div id="mazeBoard" class="maze-board" tabindex="0" aria-label="Maze puzzle. Slide or use arrow keys from the green entrance to the red exit.">
+            <div id="mazeGrid" class="maze-grid"></div>
+            <svg id="mazePathLayer" class="maze-path-layer" aria-hidden="true"></svg>
+          </div>
+          <div class="puzzle-actions">
+            <button id="undoBtn" class="secondary-button" type="button">Undo step</button>
+            <button id="resetPathBtn" class="secondary-button" type="button">Restart path</button>
+          </div>
+          <p class="help-text">Drag through open passages. You can also tap neighbouring squares or focus the maze and use the arrow keys.</p>
+        </div>
+
+        <div id="resultView" class="view hidden">
+          <div class="result-icon">🏁</div>
+          <h3 id="resultTitle"></h3>
+          <p id="resultTime" class="result-time"></p>
+          <div id="resultMazeBoard" class="maze-board result-board" aria-label="Completed maze route">
+            <div id="resultMazeGrid" class="maze-grid"></div>
+            <svg id="resultPathLayer" class="maze-path-layer" aria-hidden="true"></svg>
+          </div>
+        </div>
+
+        <div id="finalView" class="view hidden">
+          <div class="result-icon">🏆</div>
+          <h3>Maze Race complete</h3>
+          <p id="finalMessage"></p>
+          <div id="finalRankings" class="final-rankings"></div>
+          <button id="restartBtn" class="primary-button" type="button">Return to lobby</button>
+        </div>
+      </section>
+
+      <div id="scoreStrip" class="score-strip" aria-live="polite"></div>
+      <p id="playError" class="error-message" role="alert"></p>
+    </section>
+  </main>
+
+  <script src="/assets/vendor/socket.io.min.js"></script>
+<script src="/assets/js/runtime-config.js"></script>
+<script src="/assets/js/socket-connection.js"></script>
+  <script src="/games/maze/client.js"></script>
+</body>
+</html>

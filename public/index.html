@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Choose a browser game to play." />
+  <title>Mini Game Arcade</title>
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <link rel="stylesheet" href="/assets/css/landing.css" />
+</head>
+<body>
+  <main class="landing-shell">
+    <header class="hero">
+      <p class="eyebrow">Mini Game Arcade</p>
+      <h1>Choose a game</h1>
+      <p class="hero-copy">Quick browser games for solo play or real-time competition with a friend.</p>
+    </header>
+
+    <section class="game-grid" aria-label="Available games">
+      <a class="game-card number-card" href="/games/number-hunt/">
+        <div class="card-art number-art" aria-hidden="true">
+          <span>18</span><span>42</span><span>7</span><span>31</span><span>25</span><span>9</span>
+        </div>
+        <div class="card-content">
+          <div class="card-heading">
+            <h2>Number Hunt</h2>
+            <span class="player-pill">2 players</span>
+          </div>
+          <p>Call a number, race to fill your X card, and make your opponent hunt through a shuffled board.</p>
+          <span class="play-link">Play Number Hunt <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <a class="game-card colour-card" href="/games/colour-memory/">
+        <div class="card-art colour-art" aria-hidden="true">
+          <div class="memory-swatch"></div>
+          <div class="picker-preview">
+            <div class="mini-hue"></div>
+            <div class="mini-plane"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-heading">
+            <h2>Colour Memory</h2>
+            <span class="player-pill">1–2 players</span>
+          </div>
+          <p>Memorise a flashed colour, rebuild it with the picker, and compete for the closest accuracy.</p>
+          <span class="play-link">Play Colour Memory <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <a class="game-card pixel-card" href="/games/pixel-drawing/">
+        <div class="card-art pixel-art" aria-hidden="true">
+          <div class="landing-pixel-grid">
+            <span></span><span></span><span class="yellow"></span><span class="yellow"></span><span></span><span></span>
+            <span></span><span class="yellow"></span><span class="yellow"></span><span class="yellow"></span><span class="yellow"></span><span></span>
+            <span class="yellow"></span><span class="red"></span><span class="yellow"></span><span class="yellow"></span><span class="red"></span><span class="yellow"></span>
+            <span class="yellow"></span><span class="yellow"></span><span class="black"></span><span class="black"></span><span class="yellow"></span><span class="yellow"></span>
+            <span></span><span class="yellow"></span><span class="yellow"></span><span class="yellow"></span><span class="yellow"></span><span></span>
+            <span></span><span></span><span class="yellow"></span><span class="yellow"></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-heading">
+            <h2>Pixel Drawing</h2>
+            <span class="player-pill">2 players</span>
+          </div>
+          <p>Memorise a simple random pixel image, rebuild its shape and colours, and compete for the highest accuracy.</p>
+          <span class="play-link">Play Pixel Drawing <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <a class="game-card dots-card" href="/games/connect-dots/">
+        <div class="card-art dots-art" aria-hidden="true">
+          <div class="landing-dots-grid">
+            <span class="dot d-red a"></span><span class="dot d-red b"></span>
+            <span class="dot d-blue a"></span><span class="dot d-blue b"></span>
+            <span class="dot d-green a"></span><span class="dot d-green b"></span>
+            <span class="dot d-purple a"></span><span class="dot d-purple b"></span>
+            <svg viewBox="0 0 6 6">
+              <polyline points=".5,4.5 .5,1.5 2.5,1.5" class="line-red"/>
+              <polyline points="1.5,5.5 1.5,3.5 4.5,3.5" class="line-blue"/>
+              <polyline points="5.5,.5 5.5,4.5" class="line-green"/>
+              <polyline points="2.5,.5 4.5,.5 4.5,5.5" class="line-purple"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-heading">
+            <h2>Connect Dots</h2>
+            <span class="player-pill">2 players</span>
+          </div>
+          <p>Connect matching coloured dots without crossing another line. The first player to solve each puzzle wins.</p>
+          <span class="play-link">Play Connect Dots <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <a class="game-card maze-card" href="/games/maze/">
+        <div class="card-art maze-art" aria-hidden="true">
+          <div class="landing-maze">
+            <svg viewBox="0 0 8 8" role="presentation">
+              <path class="maze-walls" d="M0 1h3V0h1v2h2V1h2M1 0v3H0m2 0h3v2H3v2h2V6h2v2M0 4h2v2H0m6-4v3h2M5 4h2v2H6" />
+              <polyline class="maze-solution" points=".5,.5 1.5,.5 1.5,2.5 3.5,2.5 3.5,4.5 2.5,4.5 2.5,6.5 5.5,6.5 5.5,5.5 7.5,5.5 7.5,7.5" />
+              <circle class="maze-start-dot" cx=".5" cy=".5" r=".28" />
+              <circle class="maze-end-dot" cx="7.5" cy="7.5" r=".28" />
+            </svg>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-heading">
+            <h2>Maze Race</h2>
+            <span class="player-pill">2 players</span>
+          </div>
+          <p>Slide through the same randomly generated maze and race your opponent to the exit.</p>
+          <span class="play-link">Play Maze Race <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <a class="game-card four-card" href="/games/connect-four/">
+        <div class="card-art four-art" aria-hidden="true">
+          <div class="landing-four-grid">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span class="yellow"></span><span></span><span></span><span></span>
+            <span></span><span></span><span class="red"></span><span class="red"></span><span></span><span></span><span></span>
+            <span></span><span class="yellow"></span><span class="yellow"></span><span class="red"></span><span></span><span></span><span></span>
+            <span class="yellow"></span><span class="red"></span><span class="yellow"></span><span class="red"></span><span class="yellow"></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-heading">
+            <h2>Connect Four</h2>
+            <span class="player-pill">2 players</span>
+          </div>
+          <p>Drop discs into columns, connect four in a row, and choose the colours shown on your own device.</p>
+          <span class="play-link">Play Connect Four <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </section>
+  </main>
+</body>
+</html>

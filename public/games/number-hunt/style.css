@@ -1,0 +1,449 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, #ffe9f0, #f7f7fb 45%, #e9efff);
+  color: #202336;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.app {
+  width: min(1580px, 98vw);
+  margin: 0 auto;
+  padding: 18px 0 32px;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(40, 43, 70, 0.09);
+  border-radius: 22px;
+  box-shadow: 0 14px 35px rgba(25, 30, 60, 0.10);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.firstLobby {
+  max-width: 520px;
+  margin: 40px auto;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 8vw, 4rem);
+  line-height: 0.95;
+  margin-bottom: 12px;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+h3 {
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: #5d627a;
+  line-height: 1.45;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+  font-weight: 700;
+}
+
+input,
+select {
+  border: 1px solid #cfd4e6;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+select:disabled {
+  opacity: 0.65;
+}
+
+button {
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 18px;
+  cursor: pointer;
+  font-weight: 800;
+  background: #202336;
+  color: #fff;
+  transition: transform 0.04s ease, opacity 0.08s ease;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.secondary {
+  background: #eef1ff;
+  color: #202336;
+}
+
+.row,
+.joinBox {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+}
+
+.joinBox label {
+  flex: 1;
+}
+
+.error {
+  color: #b42318;
+  font-weight: 700;
+  min-height: 1.3em;
+}
+
+.game {
+  display: grid;
+  gap: 14px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.small {
+  color: #70758b;
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.settingsLobby {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr auto;
+  align-items: center;
+  gap: 22px;
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.helpText {
+  color: #70758b;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.settingsActions {
+  display: grid;
+  gap: 10px;
+  justify-items: stretch;
+}
+
+.arena {
+  display: grid;
+  grid-template-columns: minmax(850px, 1fr) 300px;
+  align-items: start;
+  gap: 14px;
+}
+
+.playColumn {
+  display: grid;
+  gap: 14px;
+}
+
+.sideColumn {
+  position: sticky;
+  top: 12px;
+  display: grid;
+  gap: 14px;
+}
+
+.callout {
+  text-align: center;
+  padding: 16px 20px;
+}
+
+#mainInstruction {
+  color: #4d536b;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.bigNumber {
+  font-size: clamp(2rem, 8vw, 5.2rem);
+  line-height: 0.95;
+  font-weight: 900;
+  margin: 4px 0 10px;
+}
+
+.fill {
+  width: min(420px, 100%);
+  font-size: 1.05rem;
+  padding: 16px;
+  background: #f05a7e;
+  box-shadow: 0 10px 0 #b83052;
+}
+
+.fill:active {
+  transform: translateY(7px);
+  box-shadow: 0 3px 0 #b83052;
+}
+
+.mainGrids {
+  display: grid;
+  grid-template-columns: minmax(420px, 1fr) minmax(420px, 1fr);
+  gap: 14px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tag {
+  background: #eef1ff;
+  color: #333a70;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.numberBoard,
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size, 10), minmax(34px, 1fr));
+  gap: 6px;
+}
+
+.numberCell,
+.cardCell {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.numberCell {
+  background: #fff;
+  border: 2px solid #dbe0f1;
+  color: #202336;
+  font-size: clamp(0.78rem, 1.5vw, 1.15rem);
+  padding: 0;
+}
+
+.numberCell.active {
+  border-color: #202336;
+  box-shadow: inset 0 0 0 2px #202336;
+}
+
+.numberCell.hunt {
+  border-color: #f05a7e;
+  box-shadow: 0 0 0 3px rgba(240, 90, 126, 0.18);
+}
+
+.numberCell.crossed {
+  background: #eff0f5;
+  color: #9aa0b5;
+  text-decoration: line-through;
+  border-color: #cbd0df;
+}
+
+.numberCell.wrong {
+  animation: shake 0.22s ease;
+  border-color: #b42318;
+}
+
+.numberCell.selectedNow {
+  transform: scale(0.94);
+  opacity: 0.75;
+}
+
+.cardCell {
+  background: #f7f8fe;
+  border: 2px dashed #cdd3e9;
+  font-size: clamp(0.85rem, 1.7vw, 1.35rem);
+  color: #f05a7e;
+}
+
+.cardCell.filled {
+  background: #fff0f4;
+  border-style: solid;
+  border-color: #f05a7e;
+}
+
+.cardGrid.mini {
+  grid-template-columns: repeat(var(--card-grid-size, 10), minmax(16px, 1fr));
+  gap: 3px;
+}
+
+.cardGrid.mini .cardCell {
+  border-radius: 5px;
+  font-size: 0.55rem;
+  min-width: 14px;
+  min-height: 14px;
+  border-width: 1px;
+}
+
+.rules {
+  color: #555b73;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+.rules h3 {
+  color: #202336;
+}
+
+.rules ol {
+  padding-left: 22px;
+  margin-bottom: 0;
+}
+
+.rules li {
+  margin-bottom: 8px;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  35% { transform: translateX(-5px); }
+  70% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+@media (max-width: 1250px) {
+  .arena {
+    grid-template-columns: 1fr;
+  }
+
+  .sideColumn {
+    position: static;
+    grid-template-columns: 280px 1fr;
+  }
+
+  .mainGrids {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .settingsLobby,
+  .settingsGrid,
+  .mainGrids,
+  .sideColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .row,
+  .joinBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .numberBoard,
+  .cardGrid {
+    grid-template-columns: repeat(var(--grid-size, 10), minmax(24px, 1fr));
+    gap: 4px;
+  }
+
+  .numberCell,
+  .cardCell {
+    min-width: 24px;
+    min-height: 24px;
+    border-radius: 7px;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+}
+.backLink {
+  margin: 2px 0 14px 6px;
+}
+
+/* Bring the Number Hunt entry page in line with the other arcade games. */
+:root {
+  --entry-accent: #ef4f77;
+  --entry-button: #26233c;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.app {
+  width: min(1580px, calc(100% - 28px));
+  padding-top: 26px;
+}
+
+.firstLobby {
+  max-width: 720px;
+}
+
+.firstLobby label {
+  margin: 0;
+}
+
+.firstLobby input {
+  border-radius: 13px;
+  padding: 0 14px;
+}
+
+.firstLobby button {
+  border-radius: 13px;
+  padding: 0 18px;
+}
+
+.firstLobby.game-entry {
+  margin: 30px auto 0;
+  padding: clamp(25px, 5vw, 44px);
+}

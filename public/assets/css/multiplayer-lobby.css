@@ -1,0 +1,225 @@
+/* Shared room-code and multiplayer settings screen used by every arcade game. */
+.shared-room-lobby {
+  width: min(760px, 100%);
+  margin: 30px auto 0;
+  padding: clamp(26px, 5vw, 46px);
+  display: grid;
+  gap: 22px;
+  color: #202336;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.shared-lobby-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.shared-lobby-kicker {
+  margin: 0 0 7px;
+  color: #646a82;
+  font-size: .76rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.shared-room-code-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 11px;
+}
+
+.shared-room-code {
+  display: inline-block;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: #202336;
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  font-weight: 1000;
+  letter-spacing: .13em;
+  line-height: 1;
+}
+
+.shared-copy-button,
+.shared-host-badge {
+  min-height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: #eceeff;
+  color: #3e46a8;
+  padding: 8px 13px;
+  font-size: .78rem;
+  font-weight: 950;
+}
+
+.shared-copy-button {
+  cursor: pointer;
+}
+
+.shared-copy-button:hover {
+  background: #dfe2ff;
+}
+
+.shared-player-list,
+.shared-room-lobby .player-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.shared-room-lobby .player-chip,
+.shared-player-chip {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(42, 46, 77, .08);
+  border-radius: 14px;
+  background: #f5f6fa;
+  padding: 12px 14px;
+  color: #30354f;
+  font-weight: 850;
+}
+
+.shared-room-lobby .player-dot,
+.shared-player-dot {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4fb46d;
+}
+
+.shared-settings-card {
+  border: 1px solid rgba(42, 46, 77, .09);
+  border-radius: 19px;
+  background: #f7f8fc;
+  padding: 20px;
+}
+
+.shared-settings-heading {
+  margin-bottom: 17px;
+}
+
+.shared-settings-heading h2 {
+  margin: 0;
+  color: #202336;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  letter-spacing: -.025em;
+}
+
+.shared-option-grid,
+.shared-room-lobby .option-grid,
+.shared-room-lobby .settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.shared-room-lobby label {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  color: #454b66;
+  font-size: .88rem;
+  font-weight: 850;
+}
+
+.shared-room-lobby select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid rgba(44, 47, 76, .16);
+  border-radius: 13px;
+  background: #fff;
+  color: #202336;
+  padding: 11px 13px;
+}
+
+.shared-room-lobby select:disabled {
+  color: #777c91;
+  background: #eceef4;
+  cursor: not-allowed;
+}
+
+.shared-lobby-message {
+  min-height: 1.35em;
+  margin: -2px 0 0;
+  color: #646a82;
+  text-align: center;
+  line-height: 1.45;
+}
+
+.shared-start-button {
+  width: 100%;
+  min-height: 49px;
+  border: 0;
+  border-radius: 14px;
+  background: #454fcb;
+  color: #fff;
+  padding: 12px 18px;
+  box-shadow: 0 10px 24px rgba(69, 79, 203, .23);
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.shared-start-button:hover:not(:disabled) {
+  background: #3842b7;
+}
+
+.shared-start-button:disabled {
+  opacity: .46;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.shared-host-hint,
+.shared-room-lobby .small-copy,
+.shared-room-lobby .subtitle.helpText {
+  min-height: 1.2em;
+  margin: -10px 0 0;
+  color: #777c91;
+  text-align: center;
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.shared-lobby-error {
+  min-height: 1.2em;
+  margin: -9px 0 0;
+  color: #b42318;
+  text-align: center;
+  font-weight: 800;
+}
+
+@media (max-width: 620px) {
+  .shared-room-lobby {
+    margin-top: 16px;
+    padding: 23px 18px;
+  }
+
+  .shared-lobby-heading {
+    align-items: flex-start;
+  }
+
+  .shared-host-badge {
+    max-width: 42%;
+    text-align: center;
+  }
+
+  .shared-player-list,
+  .shared-room-lobby .player-list,
+  .shared-option-grid,
+  .shared-room-lobby .option-grid,
+  .shared-room-lobby .settingsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .shared-settings-card {
+    padding: 17px;
+  }
+}

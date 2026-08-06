@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Memorise and recreate colours alone or against another player." />
+  <title>Colour Memory</title>
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/assets/css/multiplayer-lobby.css" />
+</head>
+<body>
+  <main class="colour-app">
+    <a class="site-link back-link" href="/">← All games</a>
+
+    <section id="welcome" class="welcome panel">
+      <p class="eyebrow">Visual memory challenge</p>
+      <h1>Colour Memory</h1>
+      <p class="intro">A colour flashes briefly. Rebuild it from memory using hue, saturation and brightness. Play solo or compete live for the closest accuracy.</p>
+
+      <div class="mode-tabs" role="tablist" aria-label="Game mode">
+        <button id="soloModeBtn" class="mode-btn active" type="button">Solo</button>
+        <button id="multiModeBtn" class="mode-btn" type="button">2 Player</button>
+      </div>
+
+      <section id="soloSetup" class="setup-section">
+        <div class="option-grid">
+          <label>Colour shown for
+            <select id="soloFlash">
+              <option value="1">1 second</option><option value="2" selected>2 seconds</option><option value="3">3 seconds</option><option value="4">4 seconds</option><option value="5">5 seconds</option>
+            </select>
+          </label>
+          <label>Time to recreate
+            <select id="soloGuess">
+              <option value="5">5 seconds</option><option value="10">10 seconds</option><option value="15" selected>15 seconds</option><option value="20">20 seconds</option><option value="30">30 seconds</option><option value="45">45 seconds</option><option value="60">60 seconds</option>
+            </select>
+          </label>
+          <label>Rounds
+            <select id="soloRounds">
+              <option value="1">1 round</option><option value="3" selected>3 rounds</option><option value="5">5 rounds</option><option value="10">10 rounds</option>
+            </select>
+          </label>
+        </div>
+        <button id="startSoloBtn" class="primary wide" type="button">Start solo game</button>
+      </section>
+
+      <section id="multiSetup" class="setup-section hidden">
+        <label>Your name
+          <input id="playerName" maxlength="18" placeholder="Player" />
+        </label>
+        <div class="room-actions">
+          <button id="createRoomBtn" class="primary" type="button">Create room</button>
+          <div class="join-row">
+            <input id="roomInput" maxlength="5" placeholder="ROOM CODE" aria-label="Room code" />
+            <button id="joinRoomBtn" class="secondary" type="button">Join room</button>
+          </div>
+        </div>
+        <p id="lobbyError" class="error" aria-live="polite"></p>
+      </section>
+    </section>
+
+    <section id="multiplayerLobby" class="shared-room-lobby panel hidden">
+      <div class="shared-lobby-heading">
+        <div>
+          <p class="shared-lobby-kicker">Room code</p>
+          <div class="shared-room-code-row">
+            <strong id="roomCode" class="shared-room-code">-----</strong>
+            <button id="copyRoomCodeBtn" class="shared-copy-button" type="button">Copy</button>
+          </div>
+        </div>
+        <span id="hostBadge" class="shared-host-badge">Host</span>
+      </div>
+
+      <div id="playerList" class="player-list shared-player-list"></div>
+
+      <section class="shared-settings-card">
+        <div class="shared-settings-heading">
+          <p class="shared-lobby-kicker">Game settings</p>
+          <h2>Choose how to play</h2>
+        </div>
+        <div class="option-grid shared-option-grid">
+          <label>Colour shown for
+            <select id="multiFlash"><option value="1">1 second</option><option value="2" selected>2 seconds</option><option value="3">3 seconds</option><option value="4">4 seconds</option><option value="5">5 seconds</option></select>
+          </label>
+          <label>Time to recreate
+            <select id="multiGuess"><option value="5">5 seconds</option><option value="10">10 seconds</option><option value="15" selected>15 seconds</option><option value="20">20 seconds</option><option value="30">30 seconds</option><option value="45">45 seconds</option><option value="60">60 seconds</option></select>
+          </label>
+          <label>Rounds
+            <select id="multiRounds"><option value="1">1 round</option><option value="3" selected>3 rounds</option><option value="5">5 rounds</option><option value="10">10 rounds</option></select>
+          </label>
+        </div>
+      </section>
+
+      <p id="roomStatus" class="shared-lobby-message">Waiting for another player...</p>
+      <button id="startMultiBtn" class="shared-start-button" type="button">Start game</button>
+      <p id="hostHint" class="shared-host-hint"></p>
+      <p id="multiLobbyError" class="shared-lobby-error" aria-live="polite"></p>
+    </section>
+
+    <section id="playArea" class="play-area hidden">
+      <header class="game-header panel">
+        <div><p class="small-label">Mode</p><h2 id="modeLabel">Solo</h2></div>
+        <div><p class="small-label">Round</p><h2 id="roundLabel">1 / 3</h2></div>
+        <div><p class="small-label">Time</p><h2 id="timerLabel">2.0s</h2></div>
+        <button id="restartBtn" class="secondary" type="button">Restart</button>
+      </header>
+
+      <section class="stage panel">
+        <div class="stage-copy">
+          <p id="stageKicker" class="small-label">Get ready</p>
+          <h2 id="stageTitle">Memorise the colour</h2>
+          <p id="stageMessage" class="muted">The colour will disappear when the timer reaches zero.</p>
+        </div>
+
+        <div id="flashView" class="flash-view hidden">
+          <div id="targetSwatch" class="target-swatch" aria-label="Target colour"></div>
+        </div>
+
+        <div id="guessView" class="guess-view hidden">
+          <div class="picker-layout">
+            <div class="picker-control">
+              <div id="hueSlider" class="hue-slider" tabindex="0" role="slider" aria-label="Hue" aria-valuemin="0" aria-valuemax="359">
+                <span id="hueMarker" class="hue-marker"></span>
+              </div>
+              <div id="svPlane" class="sv-plane" tabindex="0" aria-label="Saturation and brightness picker">
+                <span id="svMarker" class="sv-marker"></span>
+              </div>
+            </div>
+            <aside class="guess-sidebar">
+              <div id="guessPreview" class="guess-preview"></div>
+              <div class="value-grid">
+                <div><span>Hue</span><strong id="hueValue">0°</strong></div>
+                <div><span>Saturation</span><strong id="satValue">50%</strong></div>
+                <div><span>Brightness</span><strong id="valValue">50%</strong></div>
+              </div>
+              <button id="submitGuessBtn" class="primary wide" type="button">Lock in colour</button>
+              <p id="submitHint" class="muted small-copy">Your current colour is automatically used when time runs out.</p>
+            </aside>
+          </div>
+        </div>
+
+        <div id="resultView" class="result-view hidden">
+          <div class="target-result">
+            <p class="small-label">Target</p>
+            <div id="resultTarget" class="result-swatch"></div>
+          </div>
+          <div id="resultCards" class="result-cards"></div>
+          <button id="nextSoloBtn" class="primary hidden" type="button">Next round</button>
+        </div>
+
+        <div id="finalView" class="final-view hidden">
+          <div class="trophy" aria-hidden="true">🏆</div>
+          <h2 id="finalTitle">Game complete</h2>
+          <p id="finalMessage" class="muted"></p>
+          <div id="finalRankings" class="final-rankings"></div>
+          <button id="playAgainBtn" class="primary" type="button">Play again</button>
+        </div>
+      </section>
+
+      <section id="scoreStrip" class="score-strip panel"></section>
+    </section>
+  </main>
+
+  <script src="/assets/vendor/socket.io.min.js"></script>
+<script src="/assets/js/runtime-config.js"></script>
+<script src="/assets/js/socket-connection.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>

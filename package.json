@@ -1,0 +1,18 @@
+{
+  "name": "mini-game-arcade",
+  "version": "8.0.0",
+  "description": "A real-time multiplayer mini-game arcade configured for a stateful Socket.IO backend and optional Vercel static frontend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node --check server.js && node --check server/games/number-hunt.js && node --check server/games/colour-memory.js && node --check server/games/pixel-drawing.js && node --check server/games/connect-dots.js && node --check server/games/maze.js && node --check server/games/connect-four.js && node --check public/assets/js/runtime-config.js && node --check public/assets/js/socket-connection.js && node --check public/games/number-hunt/client.js && node --check public/games/colour-memory/client.js && node --check public/games/pixel-drawing/client.js && node --check public/games/connect-dots/client.js && node --check public/games/maze/client.js && node --check public/games/connect-four/client.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
