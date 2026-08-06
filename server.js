@@ -8,6 +8,9 @@ const registerPixelDrawing = require("./server/games/pixel-drawing");
 const registerConnectDots = require("./server/games/connect-dots");
 const registerMaze = require("./server/games/maze");
 const registerConnectFour = require("./server/games/connect-four");
+const registerTimer = require("./server/games/timer");
+const registerMemoryMatch = require("./server/games/memory-match");
+const registerHigherLower = require("./server/games/higher-lower");
 
 const app = express();
 const server = http.createServer(app);
@@ -47,6 +50,9 @@ registerPixelDrawing(io.of("/pixel-drawing"));
 registerConnectDots(io.of("/connect-dots"));
 registerMaze(io.of("/maze"));
 registerConnectFour(io.of("/connect-four"));
+registerTimer(io.of("/timer"));
+registerMemoryMatch(io.of("/memory-match"));
+registerHigherLower(io.of("/higher-lower"));
 
 const PORT = Number(process.env.PORT) || 3000;
 server.listen(PORT, "0.0.0.0", () => {

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Choose a secret number and take turns guessing higher or lower." />
+  <title>Higher or Lower · Mini Game Arcade</title>
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <link rel="stylesheet" href="/assets/css/game-entry.css" />
+  <link rel="stylesheet" href="/assets/css/multiplayer-lobby.css" />
+  <link rel="stylesheet" href="/games/higher-lower/style.css" />
+</head>
+<body>
+  <main class="higher-shell">
+    <a class="site-link back-link" href="/">← Back to arcade</a>
+
+    <section id="welcome" class="game-entry panel">
+      <p class="game-entry-kicker">Secret-number showdown</p>
+      <h1>Higher or Lower</h1>
+      <p class="game-entry-intro">Choose a secret number, then take turns guessing your opponent's number. Each guess tells you whether to go higher or lower.</p>
+
+      <label class="game-entry-field" for="playerName">Your name</label>
+      <input id="playerName" class="game-entry-input" maxlength="18" placeholder="Player" autocomplete="nickname" />
+
+      <div class="game-entry-actions">
+        <button id="createRoomBtn" class="game-entry-primary" type="button">Create room</button>
+        <div class="game-entry-join">
+          <label class="game-entry-field" for="roomInput">Join with code</label>
+          <div class="game-entry-join-row">
+            <input id="roomInput" class="game-entry-input room-code-input" maxlength="5" placeholder="ABCDE" autocomplete="off" />
+            <button id="joinRoomBtn" class="game-entry-secondary" type="button">Join</button>
+          </div>
+        </div>
+      </div>
+      <p id="welcomeError" class="game-entry-error" role="alert"></p>
+    </section>
+
+    <section id="lobby" class="shared-room-lobby panel hidden">
+      <div class="shared-lobby-heading">
+        <div>
+          <p class="shared-lobby-kicker">Room code</p>
+          <div class="shared-room-code-row">
+            <strong id="roomCode" class="shared-room-code">-----</strong>
+            <button id="copyRoomCodeBtn" class="shared-copy-button" type="button">Copy</button>
+          </div>
+        </div>
+        <span id="hostBadge" class="shared-host-badge">Host</span>
+      </div>
+
+      <div id="playerList" class="player-list shared-player-list"></div>
+
+      <section class="shared-settings-card">
+        <div class="shared-settings-heading">
+          <p class="shared-lobby-kicker">Game settings</p>
+          <h2>Choose how to play</h2>
+        </div>
+        <div class="shared-option-grid">
+          <label>Number range
+            <select id="rangeSelect">
+              <option value="100" selected>1–100</option>
+              <option value="200">1–200</option>
+              <option value="500">1–500</option>
+              <option value="1000">1–1,000</option>
+              <option value="1500">1–1,500</option>
+              <option value="2000">1–2,000</option>
+              <option value="3000">1–3,000</option>
+              <option value="5000">1–5,000</option>
+            </select>
+          </label>
+          <label>Rounds
+            <select id="roundsSelect">
+              <option value="1">1 round</option>
+              <option value="3" selected>3 rounds</option>
+              <option value="5">5 rounds</option>
+              <option value="7">7 rounds</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <p id="lobbyMessage" class="shared-lobby-message">Waiting for another player...</p>
+      <button id="startBtn" class="shared-start-button" type="button">Start game</button>
+      <p id="hostHint" class="shared-host-hint"></p>
+      <p id="lobbyError" class="shared-lobby-error" role="alert"></p>
+    </section>
+
+    <section id="playArea" class="play-area hidden">
+      <header class="game-header panel">
+        <div><span class="meta-label">Room</span><strong id="gameRoomCode">—</strong></div>
+        <div><span class="meta-label">Round</span><strong id="roundLabel">1 / 3</strong></div>
+        <div><span class="meta-label">Turn</span><strong id="turnLabel">Choosing</strong></div>
+      </header>
+
+      <section class="stage panel">
+        <p id="stageKicker" class="higher-kicker">Choose secretly</p>
+        <h2 id="stageTitle">Pick your number</h2>
+        <p id="stageMessage" class="stage-message"></p>
+
+        <div id="choosingView" class="view hidden">
+          <div class="secret-card">
+            <p class="small-label">Your secret number</p>
+            <output id="secretDisplay" for="secretRange secretInput">50</output>
+            <input id="secretRange" class="number-slider" type="range" min="1" max="100" value="50" />
+            <div class="number-entry-row">
+              <label for="secretInput">Exact number</label>
+              <input id="secretInput" type="number" min="1" max="100" value="50" inputmode="numeric" />
+              <button id="randomSecretBtn" class="secondary-button" type="button">Random</button>
+            </div>
+            <button id="lockNumberBtn" class="primary-button lock-button" type="button">Lock secret number</button>
+            <p class="secret-note">Only you can see this number. Your opponent receives only a locked status.</p>
+          </div>
+          <div id="choiceStatuses" class="choice-statuses" aria-live="polite"></div>
+        </div>
+
+        <div id="countdownView" class="view hidden">
+          <p class="small-label">First guess</p>
+          <strong id="starterName" class="starter-name">Player</strong>
+          <div id="countdownNumber" class="countdown-number">3</div>
+          <p>Your secret is locked. Get ready to narrow the range.</p>
+        </div>
+
+        <div id="guessView" class="view hidden">
+          <div class="guess-layout">
+            <section class="guess-panel">
+              <p class="small-label">Your opponent's number is within</p>
+              <div class="range-display"><strong id="lowerBound">1</strong><span>to</span><strong id="upperBound">100</strong></div>
+              <input id="guessRange" class="number-slider" type="range" min="1" max="100" value="50" />
+              <div class="guess-entry-row">
+                <input id="guessInput" type="number" min="1" max="100" value="50" inputmode="numeric" aria-label="Your guess" />
+                <button id="guessBtn" class="primary-button" type="button">Guess</button>
+              </div>
+              <p id="guessHint" class="guess-hint">Choose a number in the remaining range.</p>
+            </section>
+
+            <aside class="secret-reminder">
+              <span>Your secret</span>
+              <strong id="ownSecret">—</strong>
+              <small>Do not tell your opponent.</small>
+            </aside>
+          </div>
+
+          <section class="history-card">
+            <div class="history-heading">
+              <h3>Guess history</h3>
+              <span id="guessCount">0 guesses</span>
+            </div>
+            <div id="guessHistory" class="guess-history" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <div id="resultView" class="view hidden">
+          <div class="result-icon">🎯</div>
+          <h3 id="resultTitle">Exact guess!</h3>
+          <p id="resultMessage"></p>
+          <div id="revealedNumbers" class="revealed-numbers"></div>
+          <div id="roundStats" class="round-stats"></div>
+          <p class="next-round-note">The next round starts automatically.</p>
+        </div>
+
+        <div id="finalView" class="view hidden">
+          <div class="result-icon">🏆</div>
+          <h3>Higher or Lower complete</h3>
+          <p id="finalMessage"></p>
+          <div id="finalRankings" class="final-rankings"></div>
+          <button id="restartBtn" class="primary-button" type="button">Return to lobby</button>
+        </div>
+      </section>
+
+      <div id="scoreStrip" class="score-strip" aria-live="polite"></div>
+      <p id="playError" class="error-message" role="alert"></p>
+    </section>
+  </main>
+
+  <script src="/assets/vendor/socket.io.min.js"></script>
+  <script src="/assets/js/runtime-config.js"></script>
+  <script src="/assets/js/socket-connection.js"></script>
+  <script src="/games/higher-lower/client.js"></script>
+</body>
+</html>

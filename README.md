@@ -8,6 +8,9 @@ A Node.js and Socket.IO browser arcade containing:
 - **Connect Dots** — real-time 2-player non-crossing path puzzle race.
 - **Maze Race** — real-time 2-player race through the same generated maze.
 - **Connect Four** — real-time 2-player strategy with client-side display colours.
+- **Timer** — real-time 2-player hidden-timer accuracy challenge.
+- **Memory Match** — real-time 2-player race to match every card pair.
+- **Higher or Lower** — turn-based 2-player secret-number guessing with higher/lower clues.
 
 ## Run locally
 
@@ -21,6 +24,32 @@ Open `http://localhost:3000`.
 For 2-player games, both devices must open the same hosted app. One player creates a room and shares the five-character room code with the other player. Every multiplayer game uses the same room-code, player-waiting and game-settings layout.
 
 ## Recent additions
+
+### Higher or Lower
+
+1. The host chooses a number range of 1–100, 1–200, 1–500, 1–1,000, 1–1,500, 1–2,000, 1–3,000 or 1–5,000 and the number of rounds.
+2. Both players privately choose and lock a secret number; the opponent receives only a locked status.
+3. Players take turns guessing the opponent's number and receive a Higher or Lower clue after every incorrect guess.
+4. The remaining valid range narrows automatically, and the starting player alternates each round.
+5. The first exact guess wins the round. Final ranking uses round wins, with total guesses as a secondary statistic.
+
+
+### Memory Match
+
+1. The host chooses a 4×4, 6×6, 8×8, 10×10 or 12×12 board and the number of rounds.
+2. Both players receive the same shuffled set of card pairs, but play on independent boards.
+3. Flip two cards at a time. Matching cards stay visible; an incorrect pair flips back after a short delay.
+4. Live progress shows how many pairs each player has found.
+5. The first player to match every pair wins the round; final ranking uses round points and winning time.
+
+### Timer
+
+1. The host chooses a target-time range and number of rounds.
+2. Both players receive the same random target, shown in seconds and hundredths, such as `5:00s` or `7:77s`.
+3. Each player presses Start, estimates the time without seeing a running clock, then presses Stop.
+4. Times remain hidden until both players lock in or the round expires.
+5. The smallest absolute difference from the target wins the round; final ranking uses points, completed rounds and total error.
+
 
 ### Maze Race
 
@@ -73,6 +102,9 @@ server/
     connect-dots.js
     maze.js
     connect-four.js
+    timer.js
+    memory-match.js
+    higher-lower.js
 public/
   index.html
   assets/
@@ -88,6 +120,9 @@ public/
     connect-dots/
     maze/
     connect-four/
+    timer/
+    memory-match/
+    higher-lower/
 ```
 
 ## Production deployment
